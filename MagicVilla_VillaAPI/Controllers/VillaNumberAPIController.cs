@@ -118,7 +118,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 // for db
                 if (await _dbVillaNumber.GetAsync(u => u.VillaNo == createDTO.VillaNo) != null)
                 {
-                    ModelState.AddModelError("ErrorMessage", "Villa name already exist");
+                    ModelState.AddModelError("ErrorMessage", "Villa No already exist");
                     return BadRequest(ModelState);
 
                 }
@@ -327,7 +327,7 @@ namespace MagicVilla_VillaAPI.Controllers
              };*/
 
             VillaNumber model = _mapper.Map<VillaNumber>(villaNumberDTO);
-            _dbVillaNumber.UpdateAsync(model);
+           await  _dbVillaNumber.UpdateAsync(model);
           
 
             if (!ModelState.IsValid)

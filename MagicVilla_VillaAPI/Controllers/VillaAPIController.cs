@@ -110,7 +110,7 @@ namespace MagicVilla_VillaAPI.Controllers
         // Post method started
 
         [HttpPost]
-        //[Authorize(Roles="admin")]
+        [Authorize(Roles="admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -163,7 +163,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         //Delete
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
-        [Authorize(Roles = "admin")]
+    //    [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

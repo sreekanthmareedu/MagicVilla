@@ -4,7 +4,7 @@ namespace MagicVilla_Web.Models
 {
     public class APIResponse
     {
-        public HttpStatusCode StatusCodes{set;get;}
+        public HttpStatusCode StatusCode{set;get;}
 
         public bool isSuccess { set; get; } = true;
 
