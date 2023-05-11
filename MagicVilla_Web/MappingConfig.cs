@@ -14,6 +14,7 @@ namespace MagicVilla_Web
 
             CreateMap<VillaNumberDTO,VillaCreateDTO>().ReverseMap();
             CreateMap<VillaNumberDTO,VillaUpdateDTO>().ReverseMap();
+            CreateMap<VillaNumberDTO,VillaNumberUpdateDTO>().ReverseMap();
         
         }
     }

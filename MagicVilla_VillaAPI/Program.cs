@@ -4,6 +4,7 @@ using MagicVilla_VillaAPI.logging;
 using MagicVilla_VillaAPI.Repository;
 using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +29,22 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLString"));
 
 });
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
+
+
+builder.Services.AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV";
+    options.SubstituteApiVersionInUrl = true;
+
+});
+
+builder.Services.AddResponseCaching();
 
 builder.Services.AddScoped<IVillaRepository,VillaRepository>();
 builder.Services.AddScoped<IUserRepository,UserRepository>();
@@ -57,7 +74,18 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.CacheProfiles.Add("Default30", new CacheProfile()
+    {
+
+
+        Duration = 30
+    }) ;
+
+
+
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -90,6 +118,24 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
           }
         });
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+
+        Version = "v1",
+        Title = "Magic Villa v1",
+        Description = "API to Manage Villa",
+        TermsOfService = new Uri("http://example.com/terms")
+    });
+
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+
+        Version = "v2",
+        Title = "Magic Villa v2",
+        Description = "API to Manage Villa",
+        TermsOfService = new Uri("http://example.com/terms")
+    });
 }
     
     
@@ -102,7 +148,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json","Magic_VillaV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
+    });
 }
 
 app.UseHttpsRedirection();

@@ -25,6 +25,7 @@ namespace MagicVilla_Web.Controllers
             if (response != null && response.isSuccess)
             {
                 List = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
+                
             }
 
 
@@ -53,11 +54,13 @@ namespace MagicVilla_Web.Controllers
 
                 if (response != null && response.isSuccess)
                 {
+                    TempData["success"] = "Villa created Successfully";
                     return RedirectToAction(nameof(IndexVilla));
+                    
                 }
             }
 
-
+            TempData["error"] = "Error encountred";
             return View(model);
 
         }
@@ -89,6 +92,7 @@ namespace MagicVilla_Web.Controllers
                 if (response != null && response.isSuccess)
                 {
                     return RedirectToAction(nameof(IndexVilla));
+                    TempData["success"] = "Villa Updated Successfully";
                 }
             }
 

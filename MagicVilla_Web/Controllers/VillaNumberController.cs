@@ -103,10 +103,10 @@ namespace MagicVilla_Web.Controllers
 
         }
 
-        public async Task<IActionResult> UpdateVillaNumber(int villaNo)
+        public async Task<IActionResult> UpdateVillaNumber(int villaId)
         {
             VillaNumberUpdateVM villaNumberVM = new();
-            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await _villaNumberService.GetAsync<APIResponse>(villaId);
             if (response != null && response.isSuccess)
             {
                 VillaNumberDTO model = JsonConvert.DeserializeObject<VillaNumberDTO>(Convert.ToString(response.Result));
@@ -147,10 +147,11 @@ namespace MagicVilla_Web.Controllers
                 {
                     if (response.ErrorMessage.Count > 0)
                     {
+
                         ModelState.AddModelError("ErrorMessages", response.ErrorMessage.FirstOrDefault());
 
-                    }
 
+                    }
                 }
 
             }
@@ -172,10 +173,10 @@ namespace MagicVilla_Web.Controllers
 
         }
 
-        public async Task<IActionResult> DeleteVillaNumber(int villaNo)
+        public async Task<IActionResult> DeleteVillaNumber(int villaId)
         {
             VillaNumberDeleteVM villaNumberVM = new();
-            var response = await _villaNumberService.GetAsync<APIResponse>(villaNo);
+            var response = await _villaNumberService.GetAsync<APIResponse>(villaId);
             if (response != null && response.isSuccess)
             {
                 VillaNumberDTO model = JsonConvert.DeserializeObject<VillaNumberDTO>(Convert.ToString(response.Result));
